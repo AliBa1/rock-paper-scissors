@@ -35,26 +35,35 @@ function playRound(playerSelection, computerSelection){
     if (playerSelection == "rock") {
         if (computerSelection == "rock") {
             return "tie";
+            // results.textContent = "Tie";
         } else if (computerSelection == "paper") {
             return "lose";
+            results.textContent = "You lose";
         } else if (computerSelection == "scissors") {
             return "win";
+            // results.textContent = "You win!";
         }
     } else if (playerSelection == "paper") {
         if (computerSelection == "rock") {
             return "win";
+            // results.textContent = "You win!";
         } else if (computerSelection == "paper") {
             return "tie";
+            // results.textContent = "Tie";
         } else if (computerSelection == "scissors") {
             return "lose";
+            // results.textContent = "You lose";
         }
     } else if (playerSelection == "scissors") {
         if (computerSelection == "rock") {
             return "lose";
+            // results.textContent = "You lose";
         } else if (computerSelection == "paper") {
             return "win";
+            // results.textContent = "You win!";
         } else if (computerSelection == "scissors") {
             return "tie";
+            // results.textContent = "Tie";
         }
     }
 }
@@ -99,4 +108,96 @@ function game() {
     }
 }
 
-game(); 
+// game(); 
+
+const rockButton = document.querySelector(".rock-btn");
+const paperButton = document.querySelector(".paper-btn");
+const scissorsButton = document.querySelector(".scissors-btn");
+const results = document.querySelector(".results");
+
+const result = document.createElement("p");
+const score = document.createElement('p');
+const seriesResult = document.createElement('p');
+results.appendChild(result);
+results.appendChild(score);
+results.appendChild(seriesResult);
+
+let wins = 0;
+let loses = 0;
+
+
+
+rockButton.addEventListener('click', () => {
+    if ((wins+loses) == 5) {
+        wins = 0;
+        loses = 0;
+        seriesResult.textContent = "";
+    }
+    gameResult(playRound("Rock", getComputerChoice()), wins, loses);
+    if (result.textContent == "You win that battle!") {
+        wins++;
+    } else if (result.textContent == "You lost that battle!") {
+        loses++;
+    }
+});
+
+paperButton.addEventListener('click', () => {
+    if ((wins+loses) == 5) {
+        wins = 0;
+        loses = 0;
+        seriesResult.textContent = "";
+    }
+    gameResult(playRound("Paper", getComputerChoice()), wins, loses);
+    if (result.textContent == "You win that battle!") {
+        wins++;
+    } else if (result.textContent == "You lost that battle!") {
+        loses++;
+    }
+});
+
+scissorsButton.addEventListener('click', () => {
+    if ((wins+loses) == 5) {
+        wins = 0;
+        loses = 0;
+        seriesResult.textContent = "";
+    }
+    gameResult(playRound("Scissors", getComputerChoice()), wins, loses);
+    if (result.textContent == "You win that battle!") {
+        wins++;
+    } else if (result.textContent == "You lost that battle!") {
+        loses++;
+    }
+});
+
+function gameResult(playerResult, wins, loses) {
+    playerResult.toLowerCase();
+    switch (playerResult) {
+        case 'win':
+            wins++;
+            result.textContent = "You win that battle!";
+            break;
+        case 'lose':
+            loses++;
+            result.textContent = "You lost that battle!";
+            break;
+        case 'tie':
+            result.textContent = "You tied!";
+            break;
+        default:
+            console.error("Wrong game result!");
+    }
+
+    score.textContent = "Record: " + 
+    wins + '-' + 
+    loses;
+
+    if ((wins+loses) == 5) {
+        if (wins>loses) {
+            seriesResult.textContent = "You won the series";
+        } else {
+            seriesResult.textContent = "You lost the series";
+        }
+    }
+}
+
+
